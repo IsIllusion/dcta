@@ -603,14 +603,10 @@ def main():
     parser = argparse.ArgumentParser(description='DCTA local mock draft GUI')
     parser.add_argument('--db', default='work/deepseek.sqlite')
     parser.add_argument('--port', type=int, default=8765)
-    parser.add_argument('--provider', choices=('offline', 'deepseek', 'adp'), default='deepseek')
-    parser.add_argument('--key-file')
-    parser.add_argument('--adp-key-file', help='ADP AppKey file (default: ADP_APPKEY / ADP_KEY_FILE / project adp.key).')
-    parser.add_argument('--model', default='deepseek-flash')
-    parser.add_argument('--validator-provider', choices=('same', 'hunyuan'), default='same',
-                        help='Validator: same uses a separate direct DeepSeek call (also in ADP mode); hunyuan uses Tencent Hunyuan.')
-    parser.add_argument('--validator-model', default='hunyuan-turbos-latest')
-    parser.add_argument('--validator-key-file', help='File with exactly one Hunyuan API key (or set HUNYUAN_API_KEY).')
+    parser.add_argument('--provider', choices=('offline', 'adp'), default='adp')
+    parser.add_argument('--adp-key-file', help='Intent application AppKey file.')
+    parser.add_argument('--adp-router-key-file', help='Router application AppKey file.')
+    parser.add_argument('--adp-validator-key-file', help='Validator application AppKey file.')
     parser.add_argument('--asr-model', default=None, help='Whisper model folder (default: small.en if installed, else base.en)')
     parser.add_argument('--asr-provider', choices=('local', 'trtc'), default='local')
     parser.add_argument('--tts-provider', choices=('browser', 'trtc'), default='browser')
@@ -629,28 +625,12 @@ def main():
         print(f'Fresh isolated demo database: {args.db}',flush=True)
     factory = DemoInterpreter
     validator_factory = None
-    if args.provider in ('deepseek', 'adp'):
-        from .deepseek import DeepSeekCompletion, DeepSeekConfig
-        from .structured import StructuredInterpreter
-        # Read/validate once; each request has its own metadata and interpreter.
-        from .deepseek import load_api_key
-        key = load_api_key(args.key_file)
-        factory = lambda: StructuredInterpreter(DeepSeekCompletion(DeepSeekConfig(model=args.model), api_key=key))
-        if args.provider == 'adp':
-            from .adp import ADPCompletion, load_adp_key
-            adp_key = load_adp_key(args.adp_key_file)
-            # This host has one mock user. Scope its opaque visitor ID to this boot;
-            # each ADP call still uses a fresh conversation with host-owned evidence.
-            visitor_id = 'dcta-' + secrets.token_hex(16)
-            factory = lambda: StructuredInterpreter(ADPCompletion(api_key=adp_key, visitor_id=visitor_id,
-                router=DeepSeekCompletion(DeepSeekConfig(model=args.model), api_key=key)))
-        validator_factory = lambda: DeepSeekValidator(DeepSeekCompletion(DeepSeekConfig(model=args.model),api_key=key))
-        if args.validator_provider == 'hunyuan':
-            from .hunyuan import HunyuanCompletion, HunyuanConfig, load_hunyuan_key
-            validator_key = load_hunyuan_key(args.validator_key_file)
-            validator_config = HunyuanConfig(model=args.validator_model)
-            # Independent engine: a different provider and model family from the Business Agent.
-            validator_factory = lambda: DeepSeekValidator(HunyuanCompletion(validator_config, api_key=validator_key))
+    if args.provider == 'adp':
+        from .adp import ADPApplications
+        applications = ADPApplications.load(args.adp_key_file, args.adp_router_key_file, args.adp_validator_key_file)
+        visitor_id = 'dcta-' + secrets.token_hex(16)
+        factory = lambda: applications.interpreter(visitor_id)
+        validator_factory = lambda: applications.checker(visitor_id)
     if args.asr_model and not Path(args.asr_model).exists():
         # Launched from another working directory: fall back to the project-root copy so
         # voice is not silently unavailable because of a relative model path.
@@ -669,11 +649,10 @@ def main():
         from .trtc_tts import TRTCTTS
         tts = TRTCTTS(key_file=args.trtc_key_file, site=args.trtc_site)
     with DatabaseLease(args.db):
-        model_label = 'Published ADP application' if args.provider == 'adp' else args.model if args.provider == 'deepseek' else 'offline grammar'
+        model_label = 'Tencent ADP · Intent + Router' if args.provider == 'adp' else 'offline grammar'
         app = Application(args.db, factory, asr, args.provider, model_label,validator_factory,tts=tts)
         app.study_mode = bool(args.study)
-        app.validator_label = (f'Tencent Hunyuan · {args.validator_model} (independent provider)' if args.validator_provider == 'hunyuan'
-                               else f'DeepSeek · {args.model} (separate call)') if validator_factory else None
+        app.validator_label = 'Tencent ADP · Independent Validator' if validator_factory else None
         try:
             server = Server(('127.0.0.1', args.port), app)
         except OSError:

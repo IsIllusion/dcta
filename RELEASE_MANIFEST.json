@@ -1,6 +1,6 @@
 {
-  "revision": "540af44feef6",
-  "created_utc": "2026-10-08T09:49:49.896840+00:00",
+  "revision": "8e9b8286343e",
+  "created_utc": "2026-10-08T10:50:25.301311+00:00",
   "files": [
     {
       "path": "Dockerfile",
@@ -16,7 +16,7 @@
     },
     {
       "path": "render.yaml",
-      "sha256": "4f18a0aa54ea5509e5da3c0af9cfff5a58dd698e1acd7ca4aee5b58589b6cc7f"
+      "sha256": "7bf9c1daa63a0b190215cdbea42b188921ea9652eff4cba1046c484d180046f9"
     },
     {
       "path": ".dockerignore",
@@ -28,7 +28,7 @@
     },
     {
       "path": ".env.example",
-      "sha256": "66eed8fcb3084261560f5eaa621551c005ffd27c52311771ba9749a7ef0b1d6c"
+      "sha256": "2ed697235b7e2a88bcefd39d93f1c974596588c6bb87bf31b6a5446dc65fe9ef"
     },
     {
       "path": "requirements-payment.txt",
@@ -40,7 +40,7 @@
     },
     {
       "path": "DEPLOYMENT.md",
-      "sha256": "4578c2e45fb028ba3105d0dbe3f3794881854e2b1e50fe2e0b1ceb420f1a6734"
+      "sha256": "a12b9c249a5cd821f1eee43e1508b96184fea50681262069acff2af0126ed971"
     },
     {
       "path": "dcta/__init__.py",
@@ -48,7 +48,7 @@
     },
     {
       "path": "dcta/__main__.py",
-      "sha256": "74c28e89d5e52686fcecf2d47daddb3ad0fef9b540fbf35e474495a9763e5238"
+      "sha256": "9f72647de6b8a5cf341d1828dcaa7a81c02ac8d99a7631bbcef2e69cb8744b5f"
     },
     {
       "path": "dcta/access.py",
@@ -56,7 +56,7 @@
     },
     {
       "path": "dcta/adp.py",
-      "sha256": "29dd2b6fe7c72ab0bc5aea19c97554e5b698d6fe8479b0b3d4f69dd67f219732"
+      "sha256": "a2e058ca6bc1c5ca607926fa52290334807317ddfe976eb95f32003547ca541b"
     },
     {
       "path": "dcta/amounts.py",
@@ -96,7 +96,7 @@
     },
     {
       "path": "dcta/gui.py",
-      "sha256": "51440f13203720f0efde205332618dc3bd2ffe7e4165c7bc2ad588f0c0ee837c"
+      "sha256": "090f6c3102d7e7b0fd2529328eb578c7cd5528745199510bc7f7262ab1072c97"
     },
     {
       "path": "dcta/history.py",
@@ -128,7 +128,7 @@
     },
     {
       "path": "dcta/public_server.py",
-      "sha256": "d5812fb1fe22ec49191b539be6eca55fe468f403c6225fd8fd29533fc34318dd"
+      "sha256": "727b19c8500b22dd888eb0f67268697cec3de7a25efb8044810f63cc0f1eb2ca"
     },
     {
       "path": "dcta/purpose.py",
@@ -184,7 +184,7 @@
     },
     {
       "path": "dcta/validation.py",
-      "sha256": "e9549fb0adf84f5b03919a1d16cbbda5b745092399530a4a773c8ba01a727c66"
+      "sha256": "36733b55cf5e0ae1cb86ba7cf811f00b126dbe729c2e00a7d2360e54ab2425a0"
     },
     {
       "path": "dcta/voice.py",

@@ -101,7 +101,7 @@ class UnavailableValidator:
         raise DomainError('VALIDATOR_UNAVAILABLE','A live independent validator is required.')
 
 
-class DeepSeekValidator:
+class IndependentValidator:
     def __init__(self,completion):
         self.completion=completion
         self.name='independent/'+completion.name+'/validator-v13'
@@ -113,6 +113,10 @@ class DeepSeekValidator:
     @property
     def last_metadata(self):
         return dict(self.completion.last_metadata)
+
+
+# Compatibility for historical evaluation scripts and archived test results.
+DeepSeekValidator = IndependentValidator
 
 
 def parse_result(raw,evidence):

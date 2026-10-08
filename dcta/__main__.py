@@ -52,9 +52,7 @@ def main():
     parser.add_argument("--demo", action="store_true", help="Run a disposable reproducible scenario.")
     parser.add_argument("--db", default="work/dcta.sqlite")
     parser.add_argument("--session", help="Resume the session ID printed by an earlier run.")
-    parser.add_argument("--provider", choices=("offline", "deepseek"), default="offline")
-    parser.add_argument("--model", default="deepseek-flash")
-    parser.add_argument("--key-file", help="Local credential file; its contents are never printed.")
+    parser.add_argument("--provider", choices=("offline", "adp"), default="offline")
     args = parser.parse_args()
     if args.demo:
         if args.provider != "offline":
@@ -68,10 +66,9 @@ def main():
         session = args.session or store.new_session("U1")
         store.session("U1", session)
         interpreter = None
-        if args.provider == "deepseek":
-            from .deepseek import DeepSeekCompletion, DeepSeekConfig
-            from .structured import StructuredInterpreter
-            interpreter = StructuredInterpreter(DeepSeekCompletion(DeepSeekConfig(model=args.model), key_file=args.key_file))
+        if args.provider == "adp":
+            from .adp import ADPApplications
+            interpreter = ADPApplications.load().interpreter()
         app = Conversation(store, interpreter)
         print(f"DCTA | {app.interpreter.name} | DRAFT ONLY | MOCK DATA")
         print(f"Database: {Path(args.db).resolve()}\nSession: {session}")

@@ -320,17 +320,10 @@ def application_factory(offline=False, voice=True):
     if offline:
         # No substitute validator: offline preview cannot authorize a payment.
         return lambda path, identity: Application(path)
-    from .adp import ADPCompletion, load_adp_key
-    from .deepseek import DeepSeekCompletion, DeepSeekConfig, load_api_key
-    from .structured import StructuredInterpreter
-    from .validation import DeepSeekValidator
+    from .adp import ADPApplications
     from .trtc_asr import TRTCASR, TRTCCredentials
     from .trtc_tts import TRTCTTS, TTSCredentials
-    for name in ('ADP_APPKEY', 'DEEPSEEK_API_KEY'):
-        if not os.environ.get(name, '').strip():
-            raise DomainError('PROVIDER_CONFIG', f'Set {name} for the public demo.')
-    adp_key, deepseek_key = load_adp_key(), load_api_key()
-    model = os.environ.get('DEEPSEEK_MODEL', 'deepseek-flash')
+    applications = ADPApplications.load(require_environment=True)
     if voice:
         for name in ('TRTC_ASR_SDK_APP_ID', 'TRTC_ASR_SECRET_KEY', 'TRTC_TTS_SDK_APP_ID', 'TENCENTCLOUD_SECRET_ID', 'TENCENTCLOUD_SECRET_KEY'):
             if not os.environ.get(name, '').strip():
@@ -348,13 +341,13 @@ def application_factory(offline=False, voice=True):
     speech_capacity = threading.BoundedSemaphore(voice_workers)
 
     def create(path, identity):
-        direct = lambda: DeepSeekCompletion(DeepSeekConfig(model=model), api_key=deepseek_key)
-        interpreter = lambda: StructuredInterpreter(ADPCompletion(api_key=adp_key, visitor_id='public-' + identity[:32], router=direct()))
-        validator = lambda: DeepSeekValidator(direct())
+        visitor_id = 'public-' + identity[:32]
+        interpreter = lambda: applications.interpreter(visitor_id)
+        validator = lambda: applications.checker(visitor_id)
         asr = SharedSpeechCapacity(TRTCASR(credentials=asr_config), speech_capacity) if voice else None
         tts = TRTCTTS(credentials=tts_config) if voice else None
         app = Application(path, interpreter, asr, 'adp', 'Published ADP application', validator, tts)
-        app.validator_label = f'DeepSeek · {model} (separate call)'
+        app.validator_label = 'Tencent ADP · Independent Validator'
         return app
     return create
 

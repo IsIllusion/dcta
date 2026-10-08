@@ -30,11 +30,11 @@ services:
         value: "300"
       - key: VISITOR_TTL_SECONDS
         value: "86400"
-      - key: DEEPSEEK_MODEL
-        value: deepseek-flash
       - key: ADP_APPKEY
         sync: false
-      - key: DEEPSEEK_API_KEY
+      - key: ADP_ROUTER_APPKEY
+        sync: false
+      - key: ADP_VALIDATOR_APPKEY
         sync: false
       - key: TRTC_ASR_SDK_APP_ID
         sync: false

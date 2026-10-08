@@ -25,19 +25,23 @@ MAX_EVENT_BYTES = 512 * 1024
 MAX_STREAM_BYTES = 4 * 1024 * 1024
 
 
-def load_adp_key(key_file=None):
+def load_adp_key(key_file=None, *, role='intent'):
+    if role not in ('intent', 'router', 'validator'):
+        raise DomainError('PROVIDER_CONFIG', 'Unknown ADP application role.')
+    prefix = 'ADP' if role == 'intent' else 'ADP_' + role.upper()
+    filename = 'adp.key' if role == 'intent' else 'adp-' + role + '.key'
     if key_file is None:
-        value = os.environ.get('ADP_APPKEY', '').strip()
+        value = os.environ.get(prefix + '_APPKEY', '').strip()
         if value:
             return _check_key(value)
-        key_file = os.environ.get('ADP_KEY_FILE') or Path(__file__).resolve().parents[1] / 'adp.key'
+        key_file = os.environ.get(prefix + '_KEY_FILE') or Path(__file__).resolve().parents[1] / filename
     try:
         path = Path(key_file)
         if path.stat().st_size > 4096:
             raise DomainError('PROVIDER_CONFIG', 'ADP credential file is too large.')
         value = path.read_text(encoding='utf-8-sig').strip()
     except (OSError, UnicodeError):
-        raise DomainError('PROVIDER_CONFIG', 'Save the ADP AppKey in adp.key or set ADP_APPKEY.') from None
+        raise DomainError('PROVIDER_CONFIG', f'Save the {role} AppKey in {filename} or set {prefix}_APPKEY.') from None
     return _check_key(value)
 
 
@@ -121,19 +125,25 @@ def _final_reply(record, conversation_id):
 class ADPCompletion(DeepSeekCompletion):
     """Reuse bounded workers and sanitized errors, with ADP-specific transport.
 
-Only PLAN_SCHEMA goes to the published app. ROUTE_SCHEMA is delegated explicitly;
-validator schemas are refused, even if accidentally supplied by a future caller.
+Each instance is bound to one published application and one output contract.
+The intent application delegates routing to a separate ADP application.
 """
     label = 'Tencent ADP'
 
-    def __init__(self, config=None, *, key_file=None, api_key=None, router=None, visitor_id=None):
+    def __init__(self, config=None, *, key_file=None, api_key=None, router=None, visitor_id=None, role='intent'):
+        if role not in ('intent', 'router', 'validator'):
+            raise DomainError('PROVIDER_CONFIG', 'Unknown ADP application role.')
+        self.role = role
         self.config = config or ADPConfig()
-        self._api_key = _check_key(api_key) if api_key is not None else load_adp_key(key_file)
+        self._api_key = _check_key(api_key) if api_key is not None else load_adp_key(key_file, role=role)
+        if router is not None and (role != 'intent' or not isinstance(router, ADPCompletion) or router.role != 'router'
+                                   or router._api_key == self._api_key):
+            raise DomainError('PROVIDER_CONFIG', 'Use a separate ADP router application.')
         self.router = router
         self.visitor_id = visitor_id or 'dcta-' + uuid.uuid4().hex
         if not re.fullmatch(r'[A-Za-z0-9_-]{1,64}', self.visitor_id):
             raise DomainError('PROVIDER_CONFIG', 'Invalid ADP visitor identifier.')
-        self.name = 'adp/published-app'
+        self.name = 'adp/' + role
         self.last_metadata = {}
         self._turn_deadline = None
 
@@ -179,16 +189,25 @@ validator schemas are refused, even if accidentally supplied by a future caller.
 
     @observed('provider', 'adp_completion', provider=True)
     def complete(self, system, user, schema):
-        self.last_metadata = {'provider': 'adp', 'status': 'STARTED', 'attempts': 0}
-        if schema == ROUTE_SCHEMA:
+        self.last_metadata = {'provider': 'adp', 'application_role': self.role, 'status': 'STARTED', 'attempts': 0}
+        if self.role == 'intent' and schema == ROUTE_SCHEMA:
             if self.router is None:
                 return self._fail('PROVIDER_CONFIG')
             try:
                 return self.router.complete(system, user, schema)
             finally:
-                self.last_metadata = {**self.router.last_metadata, 'provider': 'deepseek-public-router'}
-        if schema != PLAN_SCHEMA:
+                self.last_metadata = dict(self.router.last_metadata)
+        required_schema = {'intent': PLAN_SCHEMA, 'router': ROUTE_SCHEMA, 'validator': {}}[self.role]
+        if schema != required_schema:
             return self._fail('MODEL_CONTRACT')
+        if self.role == 'validator':
+            try:
+                evidence = json.loads(user)
+                if (type(evidence) is not dict or not {'raw_history', 'accounts', 'payees'} <= evidence.keys()
+                        or evidence.keys() - {'raw_history', 'accounts', 'payees', 'name_mentions'}):
+                    raise ValueError('Unexpected evidence')
+            except (ValueError, TypeError):
+                return self._fail('VALIDATOR_CONTRACT')
         started = time.monotonic()
         remaining = self.config.total_seconds
         if self._turn_deadline is not None:
@@ -217,3 +236,39 @@ validator schemas are refused, even if accidentally supplied by a future caller.
         self.last_metadata.update({'status': 'OK', 'usage': usage, 'finish_reason': 'stop',
                                    'latency_seconds': round(time.monotonic() - started, 4)})
         return content
+
+
+@dataclass(frozen=True, repr=False)
+class ADPApplications:
+    """Role-specific credentials shared by the local and public application factories."""
+    intent: str
+    router: str
+    validator: str
+
+    def __post_init__(self):
+        keys = [self.intent, self.router, self.validator]
+        for key in keys:
+            _check_key(key)
+        if len(set(keys)) != 3:
+            raise DomainError('PROVIDER_CONFIG', 'Configure three distinct ADP application keys.')
+
+    @classmethod
+    def load(cls, intent_file=None, router_file=None, validator_file=None, *, require_environment=False):
+        if require_environment:
+            for name in ('ADP_APPKEY', 'ADP_ROUTER_APPKEY', 'ADP_VALIDATOR_APPKEY'):
+                if not os.environ.get(name, '').strip():
+                    raise DomainError('PROVIDER_CONFIG', f'Set {name} for the public demo.')
+        return cls(load_adp_key(intent_file), load_adp_key(router_file, role='router'),
+                   load_adp_key(validator_file, role='validator'))
+
+    def completion(self, visitor_id=None):
+        router = ADPCompletion(api_key=self.router, role='router', visitor_id=visitor_id)
+        return ADPCompletion(api_key=self.intent, router=router, visitor_id=visitor_id)
+
+    def interpreter(self, visitor_id=None):
+        from .structured import StructuredInterpreter
+        return StructuredInterpreter(self.completion(visitor_id))
+
+    def checker(self, visitor_id=None):
+        from .validation import IndependentValidator
+        return IndependentValidator(ADPCompletion(api_key=self.validator, role='validator', visitor_id=visitor_id))
