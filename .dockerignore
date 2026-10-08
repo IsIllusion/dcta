@@ -1,0 +1,8 @@
+*
+!dcta/
+!dcta/**
+!requirements-payment.txt
+!requirements-trtc.txt
+dcta/**/__pycache__/
+dcta/**/*.pyc
+

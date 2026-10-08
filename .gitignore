@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+data/
+test-output/
+.env
+.env.*
+!.env.example
+*.key
+*.sqlite*
+*.pem
+keys/
+dist/
+

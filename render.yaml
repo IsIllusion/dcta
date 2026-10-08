@@ -1,0 +1,48 @@
+services:
+  - type: web
+    name: dcta-public-demo
+    runtime: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    dockerCommand: python -m dcta.render_start
+    healthCheckPath: /healthz
+    autoDeployTrigger: "off"
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: BIND_ADDRESS
+        value: 0.0.0.0
+      - key: DCTA_DATA_DIR
+        value: /data
+      - key: DCTA_REQUIRE_FRESH_DATA
+        value: "1"
+      - key: MAX_VISITORS
+        value: "12"
+      - key: HTTP_WORKERS
+        value: "4"
+      - key: VOICE_WORKERS
+        value: "1"
+      - key: VISITOR_AI_REQUESTS
+        value: "60"
+      - key: DAILY_AI_REQUESTS
+        value: "300"
+      - key: VISITOR_TTL_SECONDS
+        value: "86400"
+      - key: DEEPSEEK_MODEL
+        value: deepseek-flash
+      - key: ADP_APPKEY
+        sync: false
+      - key: DEEPSEEK_API_KEY
+        sync: false
+      - key: TRTC_ASR_SDK_APP_ID
+        sync: false
+      - key: TRTC_ASR_SECRET_KEY
+        sync: false
+      - key: TRTC_TTS_SDK_APP_ID
+        sync: false
+      - key: TENCENTCLOUD_SECRET_ID
+        sync: false
+      - key: TENCENTCLOUD_SECRET_KEY
+        sync: false

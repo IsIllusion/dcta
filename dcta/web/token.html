@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="dcta-token" content="__LOCAL_TOKEN__"><title>DCTA Security Token (mock)</title><link rel="icon" type="image/svg+xml" href="/icons/logo.svg"><link rel="stylesheet" href="/style.css"><script src="/token.js" defer></script></head>
+<body class="token-page">
+<main class="token-main">
+  <section class="token-device" aria-labelledby="tokenTitle">
+    <p class="eyebrow">Mock security token · demo only</p>
+    <h1 id="tokenTitle">DCTA Security Token</h1>
+    <div id="tokenIdle" role="status"><p class="token-waiting">No approval is waiting.</p><p class="small">When a transfer from SGD 800 needs the extra check, its code appears here.</p></div>
+    <div id="tokenActive" hidden>
+      <p class="token-label">Approve this transfer?</p>
+      <p id="tokenTotal" class="token-total"></p>
+      <ul id="tokenLines" class="token-lines"></ul>
+      <p class="token-label">Your code</p>
+      <p id="tokenCode" class="token-code" aria-live="polite"></p>
+      <div class="token-timer" aria-hidden="true"><span id="tokenBar"></span></div>
+      <p id="tokenExpiry" class="small" role="timer"></p>
+      <p class="small">Only enter this code if the amount and payee above are what you asked for. DCTA never asks for this code by phone or message.</p>
+    </div>
+    <p id="tokenError" class="error" role="alert" hidden></p>
+  </section>
+</main>
+</body></html>

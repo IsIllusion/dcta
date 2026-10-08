@@ -1,0 +1,308 @@
+{
+  "revision": "540af44feef6",
+  "created_utc": "2026-10-08T09:49:49.896840+00:00",
+  "files": [
+    {
+      "path": "Dockerfile",
+      "sha256": "53350453352381aa9c1a748703031511235490b26bca6114c2b0414ce9cd4adc"
+    },
+    {
+      "path": "compose.yaml",
+      "sha256": "ff5c93bd973a4fdc54647f18581eba9452e556642a789e6ed8ef6ab0553de6d6"
+    },
+    {
+      "path": "Caddyfile",
+      "sha256": "2d1badb4e35b3f66e0691f617459d917e82c04ffb65331ec4c7d3cf943493b35"
+    },
+    {
+      "path": "render.yaml",
+      "sha256": "4f18a0aa54ea5509e5da3c0af9cfff5a58dd698e1acd7ca4aee5b58589b6cc7f"
+    },
+    {
+      "path": ".dockerignore",
+      "sha256": "7044d7702f9b30736eebf72acc8009d4afd63c73f1e50423df8f5f4838e954ed"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "8b9ea41dfb444b894ccc12397da4645eb6c39fee5718c0d96157590d647c0a0c"
+    },
+    {
+      "path": ".env.example",
+      "sha256": "66eed8fcb3084261560f5eaa621551c005ffd27c52311771ba9749a7ef0b1d6c"
+    },
+    {
+      "path": "requirements-payment.txt",
+      "sha256": "4026896996503d662ae0d9b5db045d1d5ff511c681dbfc09f5d5a11ee06b28c5"
+    },
+    {
+      "path": "requirements-trtc.txt",
+      "sha256": "e656c56618b96882b0c588f342d050eec459513bfe6c0508de592520d0a60618"
+    },
+    {
+      "path": "DEPLOYMENT.md",
+      "sha256": "4578c2e45fb028ba3105d0dbe3f3794881854e2b1e50fe2e0b1ceb420f1a6734"
+    },
+    {
+      "path": "dcta/__init__.py",
+      "sha256": "59b0557daa32700dd5847c64d4ff51c44f93d252d3ae69edf0929c876a54fa34"
+    },
+    {
+      "path": "dcta/__main__.py",
+      "sha256": "74c28e89d5e52686fcecf2d47daddb3ad0fef9b540fbf35e474495a9763e5238"
+    },
+    {
+      "path": "dcta/access.py",
+      "sha256": "d9588948e63b173b173adba3b3eea336bf66f214958a2f2c966c42ab3de06b9f"
+    },
+    {
+      "path": "dcta/adp.py",
+      "sha256": "29dd2b6fe7c72ab0bc5aea19c97554e5b698d6fe8479b0b3d4f69dd67f219732"
+    },
+    {
+      "path": "dcta/amounts.py",
+      "sha256": "607b400d2e9044ea264770b29830b5552a822a2366ca4837c0f6750f82a2be1b"
+    },
+    {
+      "path": "dcta/asr.py",
+      "sha256": "c9abd6c8a63dd5f454de3c0efdf6dabad1502a4e7ccc462cf56d53c0ca7a74e2"
+    },
+    {
+      "path": "dcta/asr_worker.py",
+      "sha256": "19bbb786ebbc3394369117cbe726a4a78950b51f842e3907ce294426189b97e5"
+    },
+    {
+      "path": "dcta/deepseek.py",
+      "sha256": "f8aeef50327b95fab32852a7be9cbdb26aaa416bdab2a4760c359edcd8149f86"
+    },
+    {
+      "path": "dcta/deployment_check.py",
+      "sha256": "3697e26993f3550296dc20b7226ce656e5b78a85f113882a98c99f5017ea963f"
+    },
+    {
+      "path": "dcta/dialogue.py",
+      "sha256": "e2ac26970eb2394f16b13450bf86212c147be8631f299b8c46ab2b03b5b4e62a"
+    },
+    {
+      "path": "dcta/domain.py",
+      "sha256": "a4888596824d9c5f9af82df32980c2a96c64708bc75071fb9dc5b46e6790d33f"
+    },
+    {
+      "path": "dcta/drafts.py",
+      "sha256": "a709304d40e2d26cbc282474759a23121e389d3ef5d337c7632d509b91b30989"
+    },
+    {
+      "path": "dcta/evaluation.py",
+      "sha256": "a5ffe5d4253b1e150f99a1715cb12483c5484961118ab33ad70f650763b76b27"
+    },
+    {
+      "path": "dcta/gui.py",
+      "sha256": "51440f13203720f0efde205332618dc3bd2ffe7e4165c7bc2ad588f0c0ee837c"
+    },
+    {
+      "path": "dcta/history.py",
+      "sha256": "3244468d4b585b66a28f0954a6f9582efb6be1ebfcc720de4debc0ddd9b87cf3"
+    },
+    {
+      "path": "dcta/hunyuan.py",
+      "sha256": "ed883f647bf58e4fd90696b2fb36375dbd82d356880debce30bc2e076cf891b2"
+    },
+    {
+      "path": "dcta/interaction.py",
+      "sha256": "e467dc8b8f4eedc1f998341f037f38ae527d80d66a46eebb7d227fed0875aa43"
+    },
+    {
+      "path": "dcta/monitor.py",
+      "sha256": "381639e0a963e391904d1303ed520fa606c096dbfcd53193cbb1c5c0913e5c8e"
+    },
+    {
+      "path": "dcta/observability.py",
+      "sha256": "127528c3f73380abedd5913200e437d0ef2d1bb481f700b176021675069f81e2"
+    },
+    {
+      "path": "dcta/payments.py",
+      "sha256": "2eb22d8d2428e17cdae81a2a07bd6218e6587f10072477a939be8c91c8769c1c"
+    },
+    {
+      "path": "dcta/presentation.py",
+      "sha256": "f56a35abeccffa144154c1ded28b2a457671058765d3656d585379b99c72040e"
+    },
+    {
+      "path": "dcta/public_server.py",
+      "sha256": "d5812fb1fe22ec49191b539be6eca55fe468f403c6225fd8fd29533fc34318dd"
+    },
+    {
+      "path": "dcta/purpose.py",
+      "sha256": "becc522bdb217ceaf89d27f18e1f2bfcc41513c4c880a29e2f2dc846275237c8"
+    },
+    {
+      "path": "dcta/references.py",
+      "sha256": "ee2b1cd7aee4b52184959d716f7c43b9c60f37f8d1883fca6e789f3db40425b5"
+    },
+    {
+      "path": "dcta/render_start.py",
+      "sha256": "6b0ffd3170886a12eb21322798daf6197a529e374b70152674607cd3dd7b23a0"
+    },
+    {
+      "path": "dcta/runtime.py",
+      "sha256": "df93336b922dca657bda357be2fd6a40fb93fa1462e1359a881793b99ef0c757"
+    },
+    {
+      "path": "dcta/spoken.py",
+      "sha256": "e171f1341f366c259eaf100312bdf8ff512597ce1371e49b22d2be02ef293ed5"
+    },
+    {
+      "path": "dcta/stepup.py",
+      "sha256": "be343039d02da10bb0aa303cd7a56b1a369dd5e4176736073c47fa3bbdc9a89f"
+    },
+    {
+      "path": "dcta/store.py",
+      "sha256": "b857e68f7a097241fb1d34afc19895e9b4983eb8d6ad0d242423c1a089301202"
+    },
+    {
+      "path": "dcta/structured.py",
+      "sha256": "5c7b289acaa4a57cbb301c8c37d6c08635d80123c19cf5b5baeb5794a38b794c"
+    },
+    {
+      "path": "dcta/study.py",
+      "sha256": "12e8d4fc936481df7f18d9032f76a10651519b3863fb8b1b77dfd5bda645ff4b"
+    },
+    {
+      "path": "dcta/tools.py",
+      "sha256": "436a33046e2b87058865d975ecfa030265043584dd501d5073c465b62a7b354d"
+    },
+    {
+      "path": "dcta/trtc_asr.py",
+      "sha256": "9318837f16fd8c858bafd7bb0b99333b28fbb5feec55f5b74c4f191bcebb62d1"
+    },
+    {
+      "path": "dcta/trtc_asr_worker.py",
+      "sha256": "11eb903ae2d45790948a93f653c24ef26d9556f1b3cfc24b1293bd3f0708cc01"
+    },
+    {
+      "path": "dcta/trtc_tts.py",
+      "sha256": "e078d3424d60366f5dce57c62e6707962522164b9f04ca66152547985acb0d10"
+    },
+    {
+      "path": "dcta/validation.py",
+      "sha256": "e9549fb0adf84f5b03919a1d16cbbda5b745092399530a4a773c8ba01a727c66"
+    },
+    {
+      "path": "dcta/voice.py",
+      "sha256": "b7be158e4a359f1e8b81e763149439235639c4aa03713800053521d598ba32d9"
+    },
+    {
+      "path": "dcta/schema.sql",
+      "sha256": "245388b97667d63f45c49453fe2eddd8857aed553e81a6034f02b3223908d77c"
+    },
+    {
+      "path": "dcta/prompts/business_agent.txt",
+      "sha256": "c5f27542b155541eb5eebcd30ffbfcdc2be783689974be2430bebabb1901d949"
+    },
+    {
+      "path": "dcta/prompts/public_router.txt",
+      "sha256": "9e948981afd4300a1ea66ef5aef16bf450794d6f7cf6618158f793149e358846"
+    },
+    {
+      "path": "dcta/prompts/validator.txt",
+      "sha256": "f42d39de8773d9208cb69bb0b35fd3ba08bca5db0154ae032622f57a2b1f10fc"
+    },
+    {
+      "path": "dcta/web/index.html",
+      "sha256": "6ce709330272c521db30d99030f16c0385cc0057620301fcb378e23c804b2d69"
+    },
+    {
+      "path": "dcta/web/token.html",
+      "sha256": "d464cb82f42e545505e6cdfb39f136162025128b62bb09469450275b25dd42c5"
+    },
+    {
+      "path": "dcta/web/app.js",
+      "sha256": "a672bebc95d18df512fe0d1c86817b4737eca26e599e6c7f001236e315ef4ad7"
+    },
+    {
+      "path": "dcta/web/token.js",
+      "sha256": "21f8071bbb50939fd752e77178f6df0bc8d635aaffe7c8dddb9de55bbc2c130b"
+    },
+    {
+      "path": "dcta/web/style.css",
+      "sha256": "226d939ce61429e10c3f52df51f45721d7758cac36c582e9c391f712ef2bc698"
+    },
+    {
+      "path": "dcta/web/icons/arrow-up.svg",
+      "sha256": "96d0150f6ca19bf60e55389884b69356718bb81f4bace10f2124853610941e46"
+    },
+    {
+      "path": "dcta/web/icons/cat-basket.svg",
+      "sha256": "393e27917cb94c23dd9a9b9fe157389f79bf2aa9cd020454759c600e0bbf0442"
+    },
+    {
+      "path": "dcta/web/icons/cat-bill.svg",
+      "sha256": "1665799638be64f160cc038e839008d8171213872e1bebc4a1450f273609eb88"
+    },
+    {
+      "path": "dcta/web/icons/cat-education.svg",
+      "sha256": "fe1ac0a6a1003702825220bd180e9b92e1f092bdde36ff79a832b91e3474c703"
+    },
+    {
+      "path": "dcta/web/icons/cat-family.svg",
+      "sha256": "509dbbdd841ceffdf33c127e5c52a5fac51c8f13bff719f2eb144f64bdce2abd"
+    },
+    {
+      "path": "dcta/web/icons/cat-home.svg",
+      "sha256": "c916524859c9e29b462095997997d18ae90567ecf24ffd45761a9584a029fcf7"
+    },
+    {
+      "path": "dcta/web/icons/cat-investment.svg",
+      "sha256": "3bb5f931aec1f011e75eb01ecf825baec45561b0d71f8893e2bcd2c2debae826"
+    },
+    {
+      "path": "dcta/web/icons/cat-key.svg",
+      "sha256": "028ac0e7c2f3d1b5a54e47912bb2ac124f8a807300ece942673e665cd3364722"
+    },
+    {
+      "path": "dcta/web/icons/cat-medical.svg",
+      "sha256": "505d63ddf0d84d466d89cc8a7e18a7db7fb362ef987e6b7af80ddfe839ad9aac"
+    },
+    {
+      "path": "dcta/web/icons/cat-other.svg",
+      "sha256": "3a57bfa5f7c52a70fda160022a72cb8707d9b21f2c1b71f8d6fd82fb172d7959"
+    },
+    {
+      "path": "dcta/web/icons/cat-own.svg",
+      "sha256": "ce93ddd58e9b4e8628d19212cbc9db1b9585801e2c09354e737ab5271fe998fa"
+    },
+    {
+      "path": "dcta/web/icons/cat-salary.svg",
+      "sha256": "513267dcee885b52924c403b006959b4034c4428cce22df8ee5570e857eb4672"
+    },
+    {
+      "path": "dcta/web/icons/cat-transfer.svg",
+      "sha256": "22fc081862cffed23025c3665fbaa7e2743ceb9bcdbecf325410aa85f2d6026d"
+    },
+    {
+      "path": "dcta/web/icons/cat-travel.svg",
+      "sha256": "a28ea735b41804f887a6ed8b887f6fea8a95cd1a9fbd73056393c09b86a1d571"
+    },
+    {
+      "path": "dcta/web/icons/logo.svg",
+      "sha256": "c1a2266726f070eaeb8c372a353ad9f828584315fb2c5c0f68d1eb3b7a03858b"
+    },
+    {
+      "path": "dcta/web/icons/microphone.svg",
+      "sha256": "8d01f205baa837943ecd8e36baa521894b4398d19e75348edaa719746b6c7763"
+    },
+    {
+      "path": "dcta/web/icons/plus.svg",
+      "sha256": "f3bd7870b4ac4bcb2153705981bdd9663f185c4563af496998803e245aca0d54"
+    },
+    {
+      "path": "dcta/web/icons/stop.svg",
+      "sha256": "9e7674f8719647c8b12c8e398c873e52d2467fe891f8a6413aac7bd243df3ddb"
+    },
+    {
+      "path": "dcta/web/icons/LICENSE.txt",
+      "sha256": "60e0b68c0f35c078eef3a5d29419d0b03ff84ec1df9c3f9d6e39a519a5ae7985"
+    }
+  ],
+  "contains_runtime_data": false,
+  "contains_private_credentials": false
+}

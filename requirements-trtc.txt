@@ -1,0 +1,6 @@
+# Official TRTC ASR v3 SDK, pinned to the reviewed upstream commit.
+trtc-asr @ git+https://github.com/Tencent-RTC/trtc-asr-sdk-python.git@620a5ef2ae336857ccf01e604d1cf955f2352683
+tls-sig-api-v2==1.1
+websockets==17.1
+av==18.1.0
+numpy==2.5.3
